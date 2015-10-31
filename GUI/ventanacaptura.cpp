@@ -1,10 +1,16 @@
 #include "ventanacaptura.h"
-
+/**
+ * @brief ventanaCaptura::ventanaCaptura, constructor de la clase
+ * @param parent
+ */
 ventanaCaptura::ventanaCaptura(QWidget *parent){
     this->fondo = new QLabel(this);    
     this->pFacade = new facade();
 }
-
+/**
+ * @brief ventanaCaptura::crearVentanaCapturada, crea la ventana para mostrar la fotografia tomada
+ * @param pMatriz
+ */
 void ventanaCaptura::crearVentanaCapturada(cv::Mat pMatriz){
     this->matImgCapturada=pMatriz.clone();
     this->image=convertirMatriz(pMatriz);
@@ -32,7 +38,11 @@ void ventanaCaptura::crearVentanaCapturada(cv::Mat pMatriz){
     this->fondo->resize(QSize(imagenFondo.width(),imagenFondo.height()));
     this->showMaximized();
 }
-
+/**
+ * @brief ventanaCaptura::convertirMatriz, convierte la matriz cv::Mat a QImae
+ * @param matrixImage
+ * @return la imagen en tipo QImage
+ */
 QImage ventanaCaptura::convertirMatriz(cv::Mat matrixImage){
     if(matrixImage.type()==CV_8UC1){
         QVector<QRgb> colorTable;
@@ -49,8 +59,9 @@ QImage ventanaCaptura::convertirMatriz(cv::Mat matrixImage){
         return newImage.rgbSwapped();
     }
 }
-
-
+/**
+ * @brief ventanaCaptura::volver, permite volver al menu principal
+ */
 void ventanaCaptura::volver(){
     menuPrincipal* menu = new menuPrincipal();
     this->close();

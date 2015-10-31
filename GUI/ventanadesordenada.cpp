@@ -1,10 +1,17 @@
 #include "ventanadesordenada.h"
-
+/**
+ * @brief ventanaDesordenada::ventanaDesordenada, constructor de la clase
+ * @param parent
+ */
 ventanaDesordenada::ventanaDesordenada(QWidget *parent){
     this->fondo = new QLabel(this);
     this->pFacade = new facade();
 }
-
+/**
+ * @brief ventanaDesordenada::recibir, recibi la imagen para que sea mostrada la original y la modificada
+ * @param pMatrizO
+ * @param pMatrizD
+ */
 void ventanaDesordenada::recibir(cv::Mat pMatrizO, cv::Mat pMatrizD){
     this->matImgCapturada=pMatrizO;
     this->matImgDesordenada=pMatrizD;
@@ -28,14 +35,20 @@ void ventanaDesordenada::recibir(cv::Mat pMatrizO, cv::Mat pMatrizD){
     this->fondo->resize(QSize(imagenFondo.width(),imagenFondo.height()));
     this->showMaximized();
 }
-
+/**
+ * @brief ventanaDesordenada::ordenar, envia a la logica la imaen ara que sea ordenada
+ */
 void ventanaDesordenada::ordenar(){
     ventanaFinal* ventana = new ventanaFinal();
     ventana->recibir(this->matImgCapturada, pFacade->ordenar(this->matImgDesordenada));
     this->close();
     this->deleteLater();
 }
-
+/**
+ * @brief ventanaDesordenada::convertirMatriz, convierte la imagen de tipo cv::Mat a QImage
+ * @param matrixImage
+ * @return imagen en QImage
+ */
 QImage ventanaDesordenada::convertirMatriz(cv::Mat matrixImage){
     if(matrixImage.type()==CV_8UC1){
         QVector<QRgb> colorTable;

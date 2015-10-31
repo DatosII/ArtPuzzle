@@ -1,7 +1,9 @@
 #include "desordenarimagen.h"
 
 cv::Mat _imagenResultado (CONSTANTSLOGIC::TAMANOIMAGEN , CONSTANTSLOGIC::TAMANOIMAGEN, CV_8UC3);
-
+/**
+ * @brief desordenarImagen::desordenarImagen, constructor de la clase
+ */
 desordenarImagen::desordenarImagen(){
     this->_y = CONSTANTSLOGIC::CERO;
     this->_x = CONSTANTSLOGIC::CERO;
@@ -12,7 +14,11 @@ desordenarImagen::desordenarImagen(){
     this->_fila=CONSTANTSLOGIC::CERO;
     this->_columna=CONSTANTSLOGIC::CERO;
 }
-
+/**
+ * @brief desordenarImagen::desordenar, recibe la imagen y se encarga de distribuirla en el proceso
+ * @param pMatriz
+ * @return la imagen desordenada
+ */
 cv::Mat desordenarImagen::desordenar(cv::Mat pMatriz){
     _imagenPrincipal=pMatriz.clone();
     desarmarImagen();
@@ -21,7 +27,9 @@ cv::Mat desordenarImagen::desordenar(cv::Mat pMatriz){
     crearImagen();
     return  _imagenResultado;
 }
-
+/**
+ * @brief desordenarImagen::desarmarImagen, descompone la imagen en cuadros
+ */
 void desordenarImagen::desarmarImagen(){
     for(;_y<CONSTANTSLOGIC::TAMANOIMAGEN;_y+=CONSTANTSLOGIC::TAMANOCUADRO,_yz+CONSTANTSLOGIC::TAMANOCUADRO){
         for(;_x<CONSTANTSLOGIC::TAMANOIMAGEN;_x+=CONSTANTSLOGIC::TAMANOCUADRO,_x1+CONSTANTSLOGIC::TAMANOCUADRO){
@@ -32,7 +40,9 @@ void desordenarImagen::desarmarImagen(){
         _x1=CONSTANTSLOGIC::TAMANOCUADRO;
     }
 }
-
+/**
+ * @brief desordenarImagen::crearImagen
+ */
 void desordenarImagen::crearImagen(){
     while(_columna<CONSTANTSLOGIC::TAMANOIMAGEN){
         while(_fila<CONSTANTSLOGIC::TAMANOIMAGEN){
@@ -49,6 +59,13 @@ void desordenarImagen::crearImagen(){
         _columna+=CONSTANTSLOGIC::TAMANOCUADRO;
     }
 }
+/**
+ * @brief desordenarImagen::llenarCanvas
+ * @param px
+ * @param py
+ * @param pindice
+ * @param lim
+ */
 void desordenarImagen::llenarCanvas(int px,int py, int pindice,int lim){
     for(int y=CONSTANTSLOGIC::CERO;y<CONSTANTSLOGIC::TAMANOCUADRO;y++){
         for(int x=CONSTANTSLOGIC::CERO;x<CONSTANTSLOGIC::TAMANOCUADRO;x++){
@@ -59,6 +76,9 @@ void desordenarImagen::llenarCanvas(int px,int py, int pindice,int lim){
         py+=CONSTANTSLOGIC::UNO;
     }
 }
+/**
+ * @brief desordenarImagen::desordenarimagen, se encarga de armar la imagen de manera aleatoria
+ */
 void desordenarImagen::desordenarimagen(){
     srand((unsigned) time(&_t));
     for(_indiceCicloDesordenarImagenes=CONSTANTSLOGIC::CERO;_indiceCicloDesordenarImagenes<CONSTANTSLOGIC::TOTALELEMENTOS;_indiceCicloDesordenarImagenes++){

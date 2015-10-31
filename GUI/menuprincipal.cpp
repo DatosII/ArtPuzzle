@@ -1,5 +1,8 @@
 #include "menuprincipal.h"
-
+/**
+ * @brief menuPrincipal::menuPrincipal, constructor de la clase
+ * @param parent
+ */
 menuPrincipal::menuPrincipal(QWidget *parent){
     this->fondo = new QLabel(this);
     QPixmap imagenFondo(":/Imagenes/Resources/menuPrincipal.jpg");
@@ -28,10 +31,14 @@ menuPrincipal::menuPrincipal(QWidget *parent){
     this->fondo->setGeometry(0, 0, imagenFondo.width(), imagenFondo.height());
     this->showMaximized();
 }
-
+/**
+ * @brief menuPrincipal::~menuPrincipal, destructor de la clase
+ */
 menuPrincipal::~menuPrincipal(){
 }
-
+/**
+ * @brief menuPrincipal::crearVentanaCaptura, toma la foto y la envia a la siguiente ventana
+ */
 void menuPrincipal::crearVentanaCaptura(){
     ventanaCaptura * captura = new ventanaCaptura();
     this->_CaptureCam=cvCreateCameraCapture(0);
@@ -44,7 +51,9 @@ void menuPrincipal::crearVentanaCaptura(){
     this->close();
     this->deleteLater();
 }
-
+/**
+ * @brief menuPrincipal::crearVentanaAyuda, crea la ventana de la ayuda
+ */
 void menuPrincipal::crearVentanaAyuda(){
     ventanaAyuda* ayuda = new ventanaAyuda();
     this->close();

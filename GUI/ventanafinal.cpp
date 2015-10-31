@@ -1,9 +1,16 @@
 #include "ventanafinal.h"
-
+/**
+ * @brief ventanaFinal::ventanaFinal, constructor de la clase
+ * @param parent
+ */
 ventanaFinal::ventanaFinal(QWidget *parent){
     this->fondo = new QLabel(this);
 }
-
+/**
+ * @brief ventanaFinal::recibir, recibe la imagen original y la ordenada
+ * @param pMatrizCap
+ * @param pMatrizOrd
+ */
 void ventanaFinal::recibir(cv::Mat pMatrizCap, cv::Mat pMatrizOrd){
     this->matImgCapturada=pMatrizCap;
     this->matImgOrdenada=pMatrizOrd;
@@ -27,13 +34,19 @@ void ventanaFinal::recibir(cv::Mat pMatrizCap, cv::Mat pMatrizOrd){
     this->fondo->resize(QSize(imagenFondo.width(),imagenFondo.height()));
     this->showMaximized();
 }
-
+/**
+ * @brief ventanaFinal::volver, permite volver al menu principal
+ */
 void ventanaFinal::volver(){
     menuPrincipal* menu = new menuPrincipal();
     this->close();
     this->deleteLater();
 }
-
+/**
+ * @brief ventanaFinal::convertirMatriz, convierte la matriz de tipo cv::Mat a QImage
+ * @param matrixImage
+ * @return imagen en formato QImage
+ */
 QImage ventanaFinal::convertirMatriz(cv::Mat matrixImage){
     if(matrixImage.type()==CV_8UC1){
         QVector<QRgb> colorTable;
