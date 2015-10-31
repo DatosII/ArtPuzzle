@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/Imagenes">
+        <file>Resources/menuPrincipal.jpg</file>
+        <file>Resources/botonAyuda.jpg</file>
+        <file>Resources/botonCapturar.jpg</file>
+        <file>Resources/botonSalir.jpg</file>
+        <file>Resources/botonVolver.jpg</file>
+        <file>Resources/fondoAyuda.jpg</file>
+        <file>Resources/fondoGeneral.jpg</file>
+        <file>Resources/botonCapturarDeNuevo.jpg</file>
+        <file>Resources/botonOrdenar.jpg</file>
+    </qresource>
+</RCC>
