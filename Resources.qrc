@@ -9,5 +9,6 @@
         <file>Resources/fondoGeneral.jpg</file>
         <file>Resources/botonCapturarDeNuevo.jpg</file>
         <file>Resources/botonOrdenar.jpg</file>
+        <file>Resources/botonDesordenar.jpg</file>
     </qresource>
 </RCC>

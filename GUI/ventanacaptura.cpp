@@ -1,27 +1,28 @@
 #include "ventanacaptura.h"
 
 ventanaCaptura::ventanaCaptura(QWidget *parent){
-    this->fondo = new QLabel(this);
+    this->fondo = new QLabel(this);    
+    this->pFacade = new facade();
 }
 
-void ventanaCaptura::crearVentanaCapturada(cv::Mat pMatriz, cv::Mat pMatrizDesordenada){
+void ventanaCaptura::crearVentanaCapturada(cv::Mat pMatriz){
     this->matImgCapturada=pMatriz.clone();
-    this->matImgDesordenada=pMatrizDesordenada.clone();
-    convertirMatriz(this->matImgDesordenada);
+    this->image=convertirMatriz(pMatriz);
     QPixmap imagenFondo(":/Imagenes/Resources/fondoGeneral.jpg");
     QPixmap imagenVolver(":/Imagenes/Resources/botonVolver.jpg");
-    QPixmap imagenOrdenar(":/Imagenes/Resources/botonOrdenar.jpg");
+    QPixmap imagenDesordenar(":/Imagenes/Resources/botonDesordenar.jpg");
     QIcon iconoVolver(imagenVolver);
-    QIcon iconoOrdenar(imagenOrdenar);
+    QIcon iconoDesordenar(imagenDesordenar);
     QPushButton* botonVolver = new QPushButton(this);
-    QPushButton* botonOrdenar = new QPushButton(this);
+    QPushButton* botonDesordenar = new QPushButton(this);
     botonVolver->setGeometry(1100,0,imagenVolver.width(), imagenVolver.height());
     botonVolver->setIcon(iconoVolver);
     botonVolver->setIconSize(imagenVolver.rect().size());
-    botonOrdenar->setGeometry(1050,650,imagenOrdenar.width(), imagenOrdenar.height());
-    botonOrdenar->setIcon(iconoOrdenar);
-    botonOrdenar->setIconSize(imagenOrdenar.rect().size());
+    botonDesordenar->setGeometry(1050,650,imagenDesordenar.width(), imagenDesordenar.height());
+    botonDesordenar->setIcon(iconoDesordenar);
+    botonDesordenar->setIconSize(imagenDesordenar.rect().size());
     QObject::connect(botonVolver, SIGNAL(clicked()), this, SLOT(volver()));
+    QObject::connect(botonDesordenar, SIGNAL(clicked()), this, SLOT(desordenar()));
     QPixmap *pixmap=new QPixmap(imagenFondo.width(), imagenFondo.height());
     QPainter *painter=new QPainter(pixmap);
     painter->drawPixmap(0, 0, imagenFondo.width(), imagenFondo.height(), imagenFondo);
@@ -32,7 +33,7 @@ void ventanaCaptura::crearVentanaCapturada(cv::Mat pMatriz, cv::Mat pMatrizDesor
     this->showMaximized();
 }
 
-void ventanaCaptura::convertirMatriz(cv::Mat matrixImage){
+QImage ventanaCaptura::convertirMatriz(cv::Mat matrixImage){
     if(matrixImage.type()==CV_8UC1){
         QVector<QRgb> colorTable;
         for (int i=0; i<266; i++)
@@ -40,12 +41,12 @@ void ventanaCaptura::convertirMatriz(cv::Mat matrixImage){
         const uchar *qImageBuffer = (const uchar*)matrixImage.data;
         QImage newImage(qImageBuffer, matrixImage.cols, matrixImage.rows, matrixImage.step, QImage::Format_Indexed8);
         newImage.setColorTable(colorTable);
-        this->image = newImage;
+        return newImage;
     }
     else if(matrixImage.type()==CV_8UC3){
         const uchar *qImageBuffer = (const uchar*)matrixImage.data;
         QImage newImage(qImageBuffer, matrixImage.cols, matrixImage.rows, matrixImage.step, QImage::Format_RGB888);
-        this->image = newImage.rgbSwapped();
+        return newImage.rgbSwapped();
     }
 }
 
@@ -56,5 +57,9 @@ void ventanaCaptura::volver(){
     this->deleteLater();
 }
 void ventanaCaptura::desordenar(){
-    this->close();
+    ventanaDesordenada* ventana = new ventanaDesordenada();
+    this->matImgDesordenada=this->pFacade->desordenar(this->matImgCapturada);
+    ventana->recibir(this->matImgCapturada, this->matImgDesordenada);
+    this->close();    
+    this->deleteLater();
 }

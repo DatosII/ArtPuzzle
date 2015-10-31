@@ -1,76 +1,76 @@
 #include "desordenarimagen.h"
 
-cv::Mat _imagenResultado (600 , 600, CV_8UC3);
+cv::Mat _imagenResultado (CONSTANTSLOGIC::TAMANOIMAGEN , CONSTANTSLOGIC::TAMANOIMAGEN, CV_8UC3);
 
 desordenarImagen::desordenarImagen(){
-    this->_y = 0;
-    this->_x = 0;
-    this->_x1 = 200;
-    this->_yz = 200;
-    this->_indiceCicloPartes = 0;
-    this->_indiceArregloDesordenado = 0;
-    this->_fila=0;
-    this->_columna=0;
+    this->_y = CONSTANTSLOGIC::CERO;
+    this->_x = CONSTANTSLOGIC::CERO;
+    this->_x1 = CONSTANTSLOGIC::TAMANOCUADRO;
+    this->_yz = CONSTANTSLOGIC::TAMANOCUADRO;
+    this->_indiceCicloPartes = CONSTANTSLOGIC::CERO;
+    this->_indiceArregloDesordenado = CONSTANTSLOGIC::CERO;
+    this->_fila=CONSTANTSLOGIC::CERO;
+    this->_columna=CONSTANTSLOGIC::CERO;
 }
 
 cv::Mat desordenarImagen::desordenar(cv::Mat pMatriz){
-    _imagenPrincipal=pMatriz;
+    _imagenPrincipal=pMatriz.clone();
     desarmarImagen();
-    _imagenDesordenada[8]= _imagenArreglada[8];
+    _imagenDesordenada[CONSTANTSLOGIC::TOTALELEMENTOS]= _imagenArreglada[CONSTANTSLOGIC::TOTALELEMENTOS];
     desordenarimagen();
     crearImagen();
     return  _imagenResultado;
 }
 
 void desordenarImagen::desarmarImagen(){
-    for(;_y<600;_y+=200,_yz+200){
-        for(;_x<600;_x+=200,_x1+200){
+    for(;_y<CONSTANTSLOGIC::TAMANOIMAGEN;_y+=CONSTANTSLOGIC::TAMANOCUADRO,_yz+CONSTANTSLOGIC::TAMANOCUADRO){
+        for(;_x<CONSTANTSLOGIC::TAMANOIMAGEN;_x+=CONSTANTSLOGIC::TAMANOCUADRO,_x1+CONSTANTSLOGIC::TAMANOCUADRO){
             _imagenArreglada[_indiceCicloPartes]=_imagenPrincipal(cv::Rect(_x,_y,_x1,_yz));
-            _indiceCicloPartes+=1;
+            _indiceCicloPartes+=CONSTANTSLOGIC::UNO;
         }
-        _x=0;
-        _x1=200;
+        _x=CONSTANTSLOGIC::CERO;
+        _x1=CONSTANTSLOGIC::TAMANOCUADRO;
     }
 }
 
 void desordenarImagen::crearImagen(){
-    while(_columna<600){
-        while(_fila<600){
-            if(_indiceArregloDesordenado!=8){
+    while(_columna<CONSTANTSLOGIC::TAMANOIMAGEN){
+        while(_fila<CONSTANTSLOGIC::TAMANOIMAGEN){
+            if(_indiceArregloDesordenado!=CONSTANTSLOGIC::TOTALELEMENTOS){
                 llenarCanvas(_fila,_columna,_indiceArregloDesordenado,_fila);
-                _fila+=200;
+                _fila+=CONSTANTSLOGIC::TAMANOCUADRO;
                 _indiceArregloDesordenado+=1;
             }else{
-                _fila+=200;
-                _indiceArregloDesordenado+=1;
+                _fila+=CONSTANTSLOGIC::TAMANOCUADRO;
+                _indiceArregloDesordenado+=CONSTANTSLOGIC::UNO;
             }
         }
-        _fila=0;
-        _columna+=200;
+        _fila=CONSTANTSLOGIC::CERO;
+        _columna+=CONSTANTSLOGIC::TAMANOCUADRO;
     }
 }
 void desordenarImagen::llenarCanvas(int px,int py, int pindice,int lim){
-    for(int y=0;y<200;y++){
-        for(int x=0;x<200;x++){
+    for(int y=CONSTANTSLOGIC::CERO;y<CONSTANTSLOGIC::TAMANOCUADRO;y++){
+        for(int x=CONSTANTSLOGIC::CERO;x<CONSTANTSLOGIC::TAMANOCUADRO;x++){
             _imagenResultado.at<cv::Vec3b>(py,px)=_imagenDesordenada[pindice].at<cv::Vec3b>(y,x);
-            px+=1;
+            px+=CONSTANTSLOGIC::UNO;
         }
         px=lim;
-        py+=1;
+        py+=CONSTANTSLOGIC::UNO;
     }
 }
 void desordenarImagen::desordenarimagen(){
     srand((unsigned) time(&_t));
-    for(_indiceCicloDesordenarImagenes=0;_indiceCicloDesordenarImagenes<8;_indiceCicloDesordenarImagenes++){
+    for(_indiceCicloDesordenarImagenes=CONSTANTSLOGIC::CERO;_indiceCicloDesordenarImagenes<CONSTANTSLOGIC::TOTALELEMENTOS;_indiceCicloDesordenarImagenes++){
         _arrayTemporal[_indiceCicloDesordenarImagenes]=_imagenArreglada[_indiceCicloDesordenarImagenes];
-        _estalibre[_indiceCicloDesordenarImagenes]=1;
+        _estalibre[_indiceCicloDesordenarImagenes]=CONSTANTSLOGIC::UNO;
     }
-    for(_indiceCicloDesordenarImagenes=0;_indiceCicloDesordenarImagenes<8;_indiceCicloDesordenarImagenes++) {
-        _posIndiceDesordenarImagenes=rand()%8;
-        while (_estalibre[_posIndiceDesordenarImagenes]==0)
-            _posIndiceDesordenarImagenes=rand()%8;
+    for(_indiceCicloDesordenarImagenes=CONSTANTSLOGIC::CERO;_indiceCicloDesordenarImagenes<CONSTANTSLOGIC::TOTALELEMENTOS;_indiceCicloDesordenarImagenes++) {
+        _posIndiceDesordenarImagenes=rand()%CONSTANTSLOGIC::TOTALELEMENTOS;
+        while (_estalibre[_posIndiceDesordenarImagenes]==CONSTANTSLOGIC::CERO)
+            _posIndiceDesordenarImagenes=rand()%CONSTANTSLOGIC::TOTALELEMENTOS;
         _arregloDesordenadoCopia[_posIndiceDesordenarImagenes]=_arrayTemporal[_indiceCicloDesordenarImagenes];
-        _estalibre[_posIndiceDesordenarImagenes]=0;
+        _estalibre[_posIndiceDesordenarImagenes]=CONSTANTSLOGIC::CERO;
         _imagenDesordenada[_posIndiceDesordenarImagenes]=_arregloDesordenadoCopia[_posIndiceDesordenarImagenes];
     }
 }

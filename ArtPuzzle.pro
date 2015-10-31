@@ -29,7 +29,8 @@ HEADERS  += Facade/facade.h \
     Logic/algoritmoavido.h \
     GUI/ventanadesordenada.h \
     GUI/ventanafinal.h \
-    Logic/desordenarimagen.h
+    Logic/desordenarimagen.h \
+    Logic/constansLogic.h
 
 RESOURCES += \
     Resources.qrc

@@ -10,8 +10,13 @@
 #include "ventanacaptura.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include "Facade/facade.h"
 
+/**
+ * @file menuPrincipal.h
+ * @brief The menuPrincipal class, muestra el menu inicial del programa
+ * @author Jairo Daniel Ortega Calderon
+ * @date October 31, 2015
+ */
 class menuPrincipal : public QMainWindow{
     Q_OBJECT
 private:
@@ -19,8 +24,6 @@ private:
     CvCapture* _CaptureCam;
     IplImage* _SaveImage;
     cv::Mat _imagenCapturada;
-    cv::Mat _imagenDesordenada;
-    facade* pFacade;
 public:
     menuPrincipal(QWidget *parent = 0);
     ~menuPrincipal();

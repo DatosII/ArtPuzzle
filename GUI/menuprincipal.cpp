@@ -2,7 +2,6 @@
 
 menuPrincipal::menuPrincipal(QWidget *parent){
     this->fondo = new QLabel(this);
-    this->pFacade = new facade();
     QPixmap imagenFondo(":/Imagenes/Resources/menuPrincipal.jpg");
     QPixmap imagenCapturar(":/Imagenes/Resources/botonCapturar.jpg");
     QPixmap imagenAyuda(":/Imagenes/Resources/botonAyuda.jpg");
@@ -38,10 +37,10 @@ void menuPrincipal::crearVentanaCaptura(){
     this->_CaptureCam=cvCreateCameraCapture(0);
     this->_SaveImage=cvQueryFrame(_CaptureCam);
     cvSaveImage("/home/jairodaniel_23/QT Projects/ArtPuzzle/Resources/imagenCapturada.jpg",_SaveImage);
-    this->_imagenCapturada=cv::imread("/home/jairodaniel_23/QT Projects/ArtPuzzle/Resources/imagenCapturada.jpg");
+    cv::Mat matTmp =cv::imread("/home/jairodaniel_23/QT Projects/ArtPuzzle/Resources/imagenCapturada.jpg");
+    this->_imagenCapturada=matTmp(cv::Rect(0,0,matTmp.cols-160, matTmp.rows));
     cvReleaseCapture(&_CaptureCam);
-    this->_imagenDesordenada = this->pFacade->desordenar(cv::imread("/home/jairodaniel_23/Descargas/tux.jpg"));
-    captura->crearVentanaCapturada(this->_imagenCapturada, this->_imagenDesordenada);
+    captura->crearVentanaCapturada(this->_imagenCapturada);
     this->close();
     this->deleteLater();
 }
